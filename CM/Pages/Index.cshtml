@@ -1,0 +1,32 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Parent</th>
+            <th>HTML Content</th>
+        </tr>
+        @foreach (var item in @Model.trees)
+        {
+        <tr>
+            <th>@item.id</th>
+            <th>@item.name</th>
+            <th>@item.parent</th>
+            <th>
+                    <a class="btn btn-primary btn-sm" href="/EditPage?id=@item.id">Edit</a>
+            </th>
+        </tr>
+        }
+    </table>
+
+    <a class="btn btn-primary btn-sm" href="/AddPage">Add</a>
+
+    @Html.Raw(@Model.TreeHtml)
+</div>

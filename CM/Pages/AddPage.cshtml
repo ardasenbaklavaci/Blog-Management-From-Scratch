@@ -1,0 +1,28 @@
+﻿@page
+@model CM.Pages.AddPageModel
+@{
+}
+<form method="post" enctype="multipart/form-data">
+
+    <table class="table table-warning">
+        <tr>
+            <td>ID: </td>
+            <td><input type="text" class="form-control" name="idForm" /></td>
+        </tr>
+        <tr>
+            <td>Name: </td>
+            <td><input type="text" class="form-control" name="nameForm" /></td>
+        </tr>
+        <tr>
+            <td>Parent: </td>
+            <td><input type="text" class="form-control" name="parentForm" /></td>
+        </tr>
+        <tr>
+            <td>HTML:</td>
+            <td><textarea id="HTML" name="HTMLForm" class="form-control" rows="4"></textarea></td>
+        </tr>
+    </table>
+
+    <button type="submit">Add</button>
+
+</form>

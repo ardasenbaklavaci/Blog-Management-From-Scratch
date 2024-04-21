@@ -1,0 +1,29 @@
+﻿@page
+@model CM.Pages.EditPageModel
+@{
+
+}
+
+<form method="post" enctype="multipart/form-data">
+
+    <table class="table table-warning">
+        <tr>
+            <td>ID: @Model.curr.id</td>
+        </tr>
+        <tr>
+            <td>Name: </td>
+            <td><input type="text" class="form-control" asp-for="curr.name" name="nameForm" /></td>
+        </tr>
+        <tr>
+            <td>Parent: </td>
+            <td><input type="text" class="form-control" asp-for="curr.parent" name="parentForm" /></td>
+        </tr>
+        <tr>
+            <td>HTML:</td>
+            <td><textarea id="HTML" name="HTMLForm" asp-for="curr.htmlcontent" class="form-control" rows="4"></textarea></td>
+        </tr>
+    </table>
+
+    <button type="submit">Edit</button>
+
+</form>
