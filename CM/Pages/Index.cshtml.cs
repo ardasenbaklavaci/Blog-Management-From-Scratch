@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace CM.Pages
 {
@@ -18,6 +19,39 @@ namespace CM.Pages
         {
             _logger = logger;   
             _configuration = configuration;
+        }
+
+        public static string ConvertTreeToHtml(TreeNode root)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            // Start the tree
+            sb.Append("<div class=\"tree\">");
+            sb.Append("<ul>");
+
+            // Generate HTML for the current node
+            sb.Append("<li>");
+            sb.Append("<a href=\"#\">" + root.Name + "</a>");
+
+            // Recursively process child nodes
+            if (root.Children.Count > 0)
+            {
+                sb.Append("<ul>");
+                foreach (var child in root.Children)
+                {
+                    sb.Append(ConvertTreeToHtml(child));
+                }
+                sb.Append("</ul>");
+            }
+
+            // Close the current node
+            sb.Append("</li>");
+
+            // Close the tree
+            sb.Append("</ul>");
+            sb.Append("</div>");
+
+            return sb.ToString();
         }
 
         public void OnGet()
@@ -66,7 +100,7 @@ namespace CM.Pages
             TreeNode root = tp.ConstructTree(nodeList);
 
             String htmlOutput = tp.PrintTree(root);
-            TreeHtml = htmlOutput;
+            TreeHtml = ConvertTreeToHtml(root);
 
         }
 

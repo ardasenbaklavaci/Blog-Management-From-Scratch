@@ -1,0 +1,8 @@
+CREATE TABLE [tree](
+	[ID] [int] NOT NULL PRIMARY KEY,
+	[name] [varchar](50) NULL,
+	[parent] [int] NULL,
+	[HTMLContent] [text] NULL);
+
+INSERT INTO tree
+values(0,'Main Page',-1,'Main Page Content')
