@@ -6,5 +6,8 @@
         public string name;
         public int parent;
         public string htmlcontent;
+        public int childcount;
+        public Boolean HasContent;
+
     }
 }
