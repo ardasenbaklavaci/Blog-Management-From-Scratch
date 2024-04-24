@@ -16,23 +16,26 @@ namespace CM.Pages
         String Sparent = "";
         String Html = "";
 
+        public Boolean chc = false;
+
         public AddPageModel(IConfiguration configuration)
         {
             _configuration = configuration;
         }
         public void OnGet()
         {
-          
+            chc = false;
         }
-
-        public LocalRedirectResult OnPost()
+		
+		public LocalRedirectResult OnPost()
         {
             Sid = Request.Form["idForm"];
             name = Request.Form["nameForm"];
             Sparent = Request.Form["parentForm"];
             Html = Request.Form["HTMLForm"];
+            chc = Request.Form["checkbox1"] == "on";
 
-            string sql = "INSERT INTO tree (ID, name, parent, HTMLContent) VALUES (@ID, @name, @parent, @HTMLContent)";
+            string sql = "INSERT INTO tree (ID, name, parent, HTMLContent, HasContent) VALUES (@ID, @name, @parent, @HTMLContent, @HasContent)";
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -44,6 +47,16 @@ namespace CM.Pages
                     command.Parameters.AddWithValue("@name", name);
                     command.Parameters.AddWithValue("@parent", Sparent);
                     command.Parameters.AddWithValue("@HTMLContent", Html);
+                    if (chc==true)
+                    {
+                        int bi = 1;
+                        command.Parameters.AddWithValue("@HasContent", bi);
+                    }
+                    else
+                    {
+                        int bi = 0;
+                        command.Parameters.AddWithValue("@HasContent", bi);
+                    }
 
                     try
                     {

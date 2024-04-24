@@ -2,6 +2,7 @@ using CM.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -20,39 +21,101 @@ namespace CM.Pages
             _logger = logger;   
             _configuration = configuration;
         }
+        public void UpdateChildCounts(TreeNode node)
+        {
+            // Set the initial child count of the node
+            node.tree.childcount = node.Children.Count;
+
+			string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+			string updateStatement = "UPDATE tree SET childcount = @childcount WHERE ID = @ConditionValue";
+
+			using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+				using (SqlCommand command = new SqlCommand(updateStatement, connection))
+				{
+					command.Parameters.AddWithValue("@childcount", node.tree.childcount);
+					command.Parameters.AddWithValue("@ConditionValue", node.tree.id);
+
+					int rowsAffected = command.ExecuteNonQuery();
+
+					if (rowsAffected > 0)
+					{
+						// Update successful
+					}
+					else
+					{
+						// No rows updated
+					}
+				}
+			}
+			//
+
+			// Recursively traverse each child
+			foreach (var child in node.Children)
+            {
+                // Update child counts for each child node
+                UpdateChildCounts(child);
+            }
+        }
+
+        static List<Tree> GetTreesList(TreeNode rootNode)
+        {
+            // Initialize a list to store the updated trees
+            List<Tree> updatedTrees = new List<Tree>();
+
+            // Function to traverse the tree and add nodes to the list
+            void Traverse(TreeNode node)
+            {
+                // Add the current node's tree info to the list
+                updatedTrees.Add(node.tree);
+
+                // Recursively traverse each child
+                foreach (var child in node.Children)
+                {
+                    Traverse(child);
+                }
+            }
+
+            // Start traversal from the root node
+            Traverse(rootNode);
+
+            return updatedTrees;
+        }
 
         public static string ConvertTreeToHtml(TreeNode root)
         {
-            StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 
-            // Start the tree
-            sb.Append("<div class=\"tree\">");
-            sb.Append("<ul>");
+			// Start the tree
+			sb.Append("<ul class=\"tree\">");
 
-            // Generate HTML for the current node
-            sb.Append("<li>");
-            sb.Append("<a href=\"#\">" + root.Name + "</a>");
+			// Generate HTML for the current node
+			sb.Append("<li>");
+			sb.Append("<span>" + root.tree.name + "</span>");
 
-            // Recursively process child nodes
-            if (root.Children.Count > 0)
-            {
-                sb.Append("<ul>");
-                foreach (var child in root.Children)
-                {
-                    sb.Append(ConvertTreeToHtml(child));
-                }
-                sb.Append("</ul>");
-            }
+			// Recursively process child nodes
+			if (root.Children.Count > 0)
+			{
+				sb.Append("<ul>");
+				foreach (var child in root.Children)
+				{
+					sb.Append("<li>");
+					sb.Append(ConvertTreeToHtml(child));
+					sb.Append("</li>");
+				}
+				sb.Append("</ul>");
+			}
 
-            // Close the current node
-            sb.Append("</li>");
+			// Close the current node
+			sb.Append("</li>");
 
-            // Close the tree
-            sb.Append("</ul>");
-            sb.Append("</div>");
+			// Close the tree
+			sb.Append("</ul>");
 
-            return sb.ToString();
-        }
+			return sb.ToString();
+		}
 
         public void OnGet()
         {
@@ -77,6 +140,7 @@ namespace CM.Pages
                             add.parent = reader.GetInt32(2);
                             add.htmlcontent = reader.GetString(3);
 
+                            add.HasContent = reader.GetBoolean(5);
                             trees.Add(add);
                         }
                        
@@ -89,19 +153,23 @@ namespace CM.Pages
             foreach (Tree tree in trees)
             {
                 TreeNode add = new TreeNode();
-                add.Id = tree.id;
-                add.Name = tree.name;
-                add.ParentId = tree.parent;
-                add.HtmlContent = tree.htmlcontent;
-                
+                add.tree.id = tree.id;
+                add.tree.name = tree.name;
+                add.tree.parent = tree.parent;
+                add.tree.htmlcontent = tree.htmlcontent;
+                add.tree.HasContent = tree.HasContent;
                 nodeList.Add(add);
             }
 
             TreeNode root = tp.ConstructTree(nodeList);
 
             String htmlOutput = tp.PrintTree(root);
+
+            UpdateChildCounts(root);
+
             TreeHtml = ConvertTreeToHtml(root);
 
+            trees = GetTreesList(root);
         }
 
         

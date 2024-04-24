@@ -19,7 +19,7 @@ namespace CM.Models
                 sb.Append("|-");
                 indent += "| ";
             }
-            sb.AppendLine(root.Name);
+            sb.AppendLine(root.tree.name);
 
             var childrenCount = root.Children.Count;
             for (int i = 0; i < childrenCount; i++)
@@ -33,7 +33,7 @@ namespace CM.Models
         public void PrintNode(TreeNode node, StringBuilder sb, int level = 0)
         {
             sb.Append(new string('-', level * 4));
-            sb.AppendLine($"<div>{node.Name}</div>");
+            sb.AppendLine($"<div>{node.tree.name}</div>");
             foreach (var child in node.Children)
             {
                 PrintNode(child, sb, level + 1);
@@ -47,22 +47,22 @@ namespace CM.Models
             // Create tree nodes and store them in a dictionary for easy access
             foreach (var node in nodeList)
             {
-                nodeMap[node.Id] = node;
+                nodeMap[node.tree.id] = node;
             }
 
             // Link child nodes to their parent nodes
             foreach (var node in nodeList)
             {
-                if (node.ParentId != -1) // Skip root node (with parent ID of -1)
+                if (node.tree.parent != -1) // Skip root node (with parent ID of -1)
                 {
-                    TreeNode parentNode = nodeMap[node.ParentId];
-                    TreeNode childNode = nodeMap[node.Id];
+                    TreeNode parentNode = nodeMap[node.tree.parent];
+                    TreeNode childNode = nodeMap[node.tree.id];
                     parentNode.Children.Add(childNode);
                 }
             }
 
             // Find the root node (with ID of 999)
-            TreeNode root = nodeMap.Values.FirstOrDefault(node => node.Id == 999);
+            TreeNode root = nodeMap.Values.FirstOrDefault(node => node.tree.id == 999);
 
             return root;
         }
