@@ -51,6 +51,39 @@ namespace Sites.Pages
         {
             return GetTreeNode(root, id);
         }
+        public List<TreeNode> FindFirstSubNodes(int targetNodeId)
+        {
+            return FindFirstSubNodes(root, targetNodeId);
+        }
+        public List<TreeNode> FindFirstSubNodes(TreeNode startNode, int targetNodeId)
+        {
+            var subNodes = new List<TreeNode>();
+            var visited = new HashSet<int>();
+            var queue = new Queue<TreeNode>();
+            queue.Enqueue(startNode);
+
+            while (queue.Count > 0)
+            {
+                var currentNode = queue.Dequeue();
+                visited.Add(currentNode.tree.id);
+
+                if (currentNode.tree.id == targetNodeId)
+                {
+                    subNodes.AddRange(currentNode.Children);
+                    break; // Stop searching further
+                }
+
+                foreach (var childNode in currentNode.Children)
+                {
+                    if (!visited.Contains(childNode.tree.id))
+                    {
+                        queue.Enqueue(childNode);
+                    }
+                }
+            }
+
+            return subNodes;
+        }
         TreeNode GetTreeNode(TreeNode node, int id)
         {
             if (node == null)
@@ -118,7 +151,8 @@ namespace Sites.Pages
             }
             root = tp.ConstructTree(nodeList);
 
-            firstnodes = FindTopNodes(root);
+            //firstnodes = FindTopNodes(root);
+            firstnodes = FindFirstSubNodes(999); //Finding from root
         }
 
     }
