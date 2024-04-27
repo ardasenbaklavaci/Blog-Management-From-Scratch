@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Home page";
 }
+@using CM.Models
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,28 +18,44 @@
         <div class="logo">
             <h1>My Awesome Blog</h1>
         </div>
+        
+        @{
+            void RenderMenuItem(TreeNode node)
+            {
+                
+                if (node.tree.childcount==0)
+                {
+                    <li>
+                        <a href="#">@node.tree.name</a>
+                    </li>
+                }
+                else 
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@node.tree.name<span class="caret"></span></a>
+                        <ul class="dropdown-content">
+                            @foreach (var childNode in node.Children)
+                            {
+                                <a href="#">@childNode.tree.name</a>
+                            }
+                        </ul>
+                    </li>
+                }
+                
+            }
+        }
+
         <nav>
             <ul>
-
-                <li>
-                    <a href="#">Home</a>
-                </li>
-
-                <li class="dropdown">
-                    <a href="#">About</a>
-                    <div class="dropdown-content">
-                        <a href="#">Our Team</a>
-                        <a href="#">Mission</a>
-                        <a href="#">Vision</a>
-                    </div>
-                </li>
-
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-
+                
+                @foreach (var rootNode in Model.firstnodes)
+                {
+                    RenderMenuItem(rootNode);
+                }
+                
             </ul>
         </nav>
+
     </header>
     <main>
         <article>

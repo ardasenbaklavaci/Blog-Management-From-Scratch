@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Xml.Linq;
 
 namespace CM.Pages
 {
@@ -12,15 +13,18 @@ namespace CM.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IConfiguration _configuration;
+        public IndexModel(ILogger<IndexModel> logger, IConfiguration configuration)
+        {
+            _logger = logger;
+            _configuration = configuration;
+        }
 
         public List<Tree> trees = new List<Tree>();
 
+        public TreeNode root;
+
         public String TreeHtml;
-        public IndexModel(ILogger<IndexModel> logger,IConfiguration configuration)
-        {
-            _logger = logger;   
-            _configuration = configuration;
-        }
+        
         public void UpdateChildCounts(TreeNode node)
         {
             // Set the initial child count of the node
@@ -117,6 +121,30 @@ namespace CM.Pages
 			return sb.ToString();
 		}
 
+        public TreeNode getTreeNode(int id)
+        {
+            return GetTreeNode(root, id);
+        }
+        TreeNode GetTreeNode(TreeNode node, int id)
+        {
+            if (node == null)
+                return null;
+
+            // Check if the current node's id matches the desired id
+            if (node.tree.id == id)
+                return node;
+
+            // Search in the children
+            foreach (var child in node.Children)
+            {
+                TreeNode foundNode = GetTreeNode(child, id);
+                if (foundNode != null)
+                    return foundNode;
+            }
+
+            // If not found, return null
+            return null;
+        }
         public void OnGet()
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -161,7 +189,7 @@ namespace CM.Pages
                 nodeList.Add(add);
             }
 
-            TreeNode root = tp.ConstructTree(nodeList);
+            root = tp.ConstructTree(nodeList);
 
             String htmlOutput = tp.PrintTree(root);
 
