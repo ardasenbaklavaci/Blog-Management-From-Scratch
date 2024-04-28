@@ -108,8 +108,10 @@
         </div>
     </header>
 
-    <main class="container" id="tree-container">
-        <!-- HTML goes here, dynamically inserted by JavaScript -->
+    <main class="container">
+
+        @Html.Raw(Model.mainHtml)
+
     </main>
 
     <footer>
@@ -119,12 +121,5 @@
     </footer>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Example tree structure generated from C# code behind
-        var treeHtml = `@Html.Raw(Model.mainHtml)`; 
-
-        // Insert tree HTML into the tree container
-        document.getElementById("tree-container").innerHTML = treeHtml;
-    </script>
 </body>
 </html>
