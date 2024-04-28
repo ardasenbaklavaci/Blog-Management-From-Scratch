@@ -108,18 +108,8 @@
         </div>
     </header>
 
-    <main class="container">
-        <article>
-            <h2>Exploring the Great Outdoors</h2>
-            <p>Have you ever dreamed of trekking through lush forests, scaling towering mountains, and gazing upon breathtaking vistas? Join us as we embark on an adventure to explore the great outdoors!</p>
-            <p>From camping tips to hiking trails, our blog covers everything you need to know to make the most of your outdoor adventures. So grab your backpack and let's hit the trail!</p>
-        </article>
-
-        <article>
-            <h2>Cooking Up a Storm</h2>
-            <p>Are you a culinary enthusiast looking to expand your repertoire in the kitchen? Look no further! Our blog is filled with delicious recipes, cooking hacks, and culinary inspiration.</p>
-            <p>From gourmet delights to comfort classics, we've got something for every palate. So roll up your sleeves, dust off your apron, and let's get cooking!</p>
-        </article>
+    <main class="container" id="tree-container">
+        <!-- HTML goes here, dynamically inserted by JavaScript -->
     </main>
 
     <footer>
@@ -129,5 +119,12 @@
     </footer>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Example tree structure generated from C# code behind
+        var treeHtml = `@Html.Raw(Model.mainHtml)`; 
+
+        // Insert tree HTML into the tree container
+        document.getElementById("tree-container").innerHTML = treeHtml;
+    </script>
 </body>
 </html>

@@ -13,6 +13,8 @@ namespace Sites.Pages
         public List<Tree> trees = new List<Tree>();
         public List<TreeNode> firstnodes = new List<TreeNode>();
 
+        public String mainHtml = "";
+
         public TreeNode root;
         public IndexModel(ILogger<IndexModel> logger, IConfiguration configuration)
         {
@@ -126,9 +128,14 @@ namespace Sites.Pages
                             add.name = reader.GetString(1);
                             add.parent = reader.GetInt32(2);
                             add.htmlcontent = reader.GetString(3);
-
+                            
                             add.childcount = reader.GetInt32(4);
                             trees.Add(add);
+
+                            if(add.id == 999)
+                            {
+                                mainHtml = add.htmlcontent;
+                            }
                         }
 
                     }
