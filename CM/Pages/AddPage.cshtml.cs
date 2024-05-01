@@ -40,7 +40,7 @@ namespace CM.Pages
 
             chc = Request.Form["checkbox1"] == "on";
 
-            string sql = "INSERT INTO tree (ID, name, parent, HTMLContent, HasContent) VALUES (@ID, @name, @parent, @HTMLContent, @HasContent)";
+            string sql = "INSERT INTO tree (ID, name, parent, HTMLContent, childcount, title, filename, HasContent) VALUES (@ID, @name, @parent, @HTMLContent, @childcount, @title , @filename , @HasContent)";
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -52,6 +52,9 @@ namespace CM.Pages
                     command.Parameters.AddWithValue("@name", name);
                     command.Parameters.AddWithValue("@parent", Sparent);
                     command.Parameters.AddWithValue("@HTMLContent", Html);
+                    command.Parameters.AddWithValue("@childcount", 0);
+                    command.Parameters.AddWithValue("@title", title);
+                    command.Parameters.AddWithValue("@filename", filename);
                     if (chc==true)
                     {
                         int bi = 1;
