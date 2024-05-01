@@ -7,6 +7,8 @@
         public int parent;
         public string htmlcontent;
         public int childcount;
+        public string title;
+        public string filename ="";
         public Boolean HasContent = false;
     }
 }

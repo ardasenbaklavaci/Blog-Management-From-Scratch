@@ -15,6 +15,8 @@ namespace CM.Pages
         String Sid = "";
         String Sparent = "";
         String Html = "";
+        String title = "";
+        String filename = "";
 
         public Boolean chc = false;
 
@@ -33,6 +35,9 @@ namespace CM.Pages
             name = Request.Form["nameForm"];
             Sparent = Request.Form["parentForm"];
             Html = Request.Form["HTMLForm"];
+            title = Request.Form["titleForm"];
+            filename = Request.Form["filenameForm"];
+
             chc = Request.Form["checkbox1"] == "on";
 
             string sql = "INSERT INTO tree (ID, name, parent, HTMLContent, HasContent) VALUES (@ID, @name, @parent, @HTMLContent, @HasContent)";

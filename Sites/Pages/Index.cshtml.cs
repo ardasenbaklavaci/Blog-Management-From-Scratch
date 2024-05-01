@@ -13,7 +13,7 @@ namespace Sites.Pages
         public List<Tree> trees = new List<Tree>();
         public List<TreeNode> firstnodes = new List<TreeNode>();
 
-        public String mainHtml = "";
+        public String mainHtml = ""; // html to render for main page...
 
         public TreeNode root;
         public IndexModel(ILogger<IndexModel> logger, IConfiguration configuration)
@@ -127,9 +127,20 @@ namespace Sites.Pages
                             add.id = reader.GetInt32(0);
                             add.name = reader.GetString(1);
                             add.parent = reader.GetInt32(2);
-                            add.htmlcontent = reader.GetString(3);
-                            
+                            if (!reader.IsDBNull(3))
+                            {
+                                add.htmlcontent = reader.GetString(3);
+                            }                                                    
                             add.childcount = reader.GetInt32(4);
+                            if (!reader.IsDBNull(6))
+                            {
+                                add.title = reader.GetString(6);
+                            }
+                            if(!reader.IsDBNull(7)) 
+                            {
+                                add.filename = reader.GetString(7);
+                            }
+                            
                             trees.Add(add);
 
                             if(add.id == 999)
@@ -152,14 +163,16 @@ namespace Sites.Pages
                 add.tree.name = tree.name;
                 add.tree.parent = tree.parent;
                 add.tree.htmlcontent = tree.htmlcontent;
+                add.tree.title = tree.title;
+                add.tree.filename = tree.filename;
                 add.tree.HasContent = tree.HasContent;
                 add.tree.childcount = tree.childcount;
                 nodeList.Add(add);
             }
             root = tp.ConstructTree(nodeList);
 
-            //firstnodes = FindTopNodes(root);
-            firstnodes = FindFirstSubNodes(999); //Finding from root
+            //firstnodes = FindTopNodes(root); // Finding from root node 
+            firstnodes = FindFirstSubNodes(999); //Finding from root_id
         }
 
     }

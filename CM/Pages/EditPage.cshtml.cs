@@ -39,9 +39,28 @@ namespace CM.Pages
                             add.id = reader.GetInt32(0);
                             add.name = reader.GetString(1);
                             add.parent = reader.GetInt32(2);
-                            add.htmlcontent = reader.GetString(3);
+                            if (!reader.IsDBNull(3))
+                            {
+                                add.htmlcontent = reader.GetString(3);
+                            }
+                            add.childcount = reader.GetInt32(4);
+                            add.HasContent = reader.GetBoolean(5);
+                            if (!reader.IsDBNull(6))
+                            {
+                                add.title = reader.GetString(6);
+                            }
+                            if (!reader.IsDBNull(7))
+                            {
+                                add.filename = reader.GetString(7);
+                            }
 
                             trees.Add(add);
+                            
+                            /*
+                            if (add.id == 999)
+                            {
+                                mainHtml = add.htmlcontent;
+                            } */
                         }
 
                     }
@@ -68,8 +87,18 @@ namespace CM.Pages
             String editName = Request.Form["nameForm"];
             String Sparent = Request.Form["parentForm"];
             String html = Request.Form["HTMLForm"];
+            String title = Request.Form["titleForm"];
+            String filename = Request.Form["filenameForm"];
+            Boolean chc = Request.Form["checkbox"] == "on";
+
+            int c = 0;
+            if(chc==true)
+            {
+                c = 1;
+            }
 
             int parentEdit = -1;
+
             if(Sparent != null)
             {
                 parentEdit = int.Parse(Sparent);
@@ -77,7 +106,7 @@ namespace CM.Pages
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-            string sql = "UPDATE tree SET name = @name, HTMLContent = @HTMLContent, parent = @parent WHERE ID = @ID";
+            string sql = "UPDATE tree SET name = @name, HTMLContent = @HTMLContent, parent = @parent, title = @title, @filename = filename, HasContent = @HasContent WHERE ID = @ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -87,6 +116,10 @@ namespace CM.Pages
                     command.Parameters.AddWithValue("@name", editName);
                     command.Parameters.AddWithValue("@parent", Sparent);
                     command.Parameters.AddWithValue("@HTMLContent", html);
+                    command.Parameters.AddWithValue("@title", title);
+                    command.Parameters.AddWithValue("@filename", filename);
+                    //
+                    command.Parameters.AddWithValue("@HasContent", chc);
                     // Assuming you have an Id field for the record to update, replace "Id" with your actual field name
                     command.Parameters.AddWithValue("@ID", id);
 

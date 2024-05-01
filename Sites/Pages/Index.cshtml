@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bootstrap Blog</title>
+    <title>@Model.root.tree.title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
     <style>
         body {
@@ -64,7 +64,6 @@
         @{
             void RenderMenuItem(TreeNode node)
             {
-
                 if (node.tree.childcount == 0)
                 {                 
                     <li class="nav-item">
@@ -87,31 +86,27 @@
                         </ul>
                     </li>
                 }
-
             }
         }
 
         <div class="container">
-            <h1>My Bootstrap Blog</h1>
+            <h1>@Model.root.tree.title</h1>
             <nav>
                 <ul class="nav">
-
 
                     @foreach (var rootNode in Model.firstnodes)
                     {
                         RenderMenuItem(rootNode);
                     }
 
-
                 </ul>
             </nav>
         </div>
+
     </header>
 
     <main class="container">
-
         @Html.Raw(Model.mainHtml)
-
     </main>
 
     <footer>

@@ -5,4 +5,4 @@ CREATE TABLE [tree](
 	[HTMLContent] [text] NULL);
 
 INSERT INTO tree
-values(0,'Main Page',-1,'Main Page Content')
+values(999,'Main Page',-1,'Main Page Content')

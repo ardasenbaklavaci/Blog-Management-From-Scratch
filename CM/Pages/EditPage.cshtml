@@ -22,6 +22,22 @@
             <td>HTML:</td>
             <td><textarea id="HTML" name="HTMLForm" asp-for="curr.htmlcontent" class="form-control" rows="4"></textarea></td>
         </tr>
+
+        <tr>
+            <td>Title:</td>
+            <td><textarea id="HTML" name="titleForm" asp-for="curr.title" class="form-control" rows="4"></textarea></td>
+        </tr>
+        
+        <tr>
+            <td>Filename:</td>
+            <td><textarea id="HTML" name="filenameForm" asp-for="curr.filename" class="form-control" rows="4"></textarea></td>
+        </tr>
+        
+        <tr>
+            <td>Has Content:</td>
+            <td><input type="checkbox" name="checkbox" checked="curr.HasContent" id="checkbox1" runat="server" /></td>
+        </tr>
+
     </table>
 
     <button type="submit">Edit</button>

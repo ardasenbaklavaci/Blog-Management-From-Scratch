@@ -111,6 +111,8 @@
 				<th>Parent</th>
 				<th>Child Count</th>
 				<th>HTML Content</th>
+				<th>Title</th>
+				<th>Filename</th>
 				<th>Has Content</th>
 			</tr>
 			@foreach (var item in @Model.trees)
@@ -123,7 +125,16 @@
 					<th>
 						<a class="btn btn-primary btn-sm" href="/EditPage?id=@item.id">Edit</a>
 					</th>
-					
+                    <th>@item.title</th>
+                    @if (item.filename.Equals(""))
+                    {
+                        <th>default.html</th>
+                    }
+                    else
+                    {
+                        <th>@item.filename</th>
+                    }
+                    
 					<th><input type="checkbox" checked="@item.HasContent" id="checkbox1" runat="server" /></th>
 					
 				</tr>

@@ -166,9 +166,26 @@ namespace CM.Pages
                             add.id = reader.GetInt32(0);
                             add.name = reader.GetString(1);
                             add.parent = reader.GetInt32(2);
-                            add.htmlcontent = reader.GetString(3);
-
+                            if (!reader.IsDBNull(3))
+                            {
+                                add.htmlcontent = reader.GetString(3);
+                            }
+                            add.childcount = reader.GetInt32(4);
                             add.HasContent = reader.GetBoolean(5);
+                            if (!reader.IsDBNull(6))
+                            {
+                                add.title = reader.GetString(6);
+                            }
+                            if (!reader.IsDBNull(7))
+                            {
+                                add.filename = reader.GetString(7);
+                            }
+
+                            /*if (add.id == 999)
+                            {
+                                mainHtml = add.htmlcontent;
+                            }
+                            */
                             trees.Add(add);
                         }
                        
@@ -186,6 +203,8 @@ namespace CM.Pages
                 add.tree.parent = tree.parent;
                 add.tree.htmlcontent = tree.htmlcontent;
                 add.tree.HasContent = tree.HasContent;
+                add.tree.title = tree.title;
+                add.tree.filename = tree.filename;
                 nodeList.Add(add);
             }
 
