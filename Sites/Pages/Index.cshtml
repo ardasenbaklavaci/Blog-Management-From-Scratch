@@ -67,7 +67,7 @@
                 if (node.tree.childcount == 0)
                 {                 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">@node.tree.name</a>
+                        <a class="nav-link" href="@node.tree.filename">@node.tree.name</a>
                     </li>
                 }
                 else
@@ -79,7 +79,7 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                           
                             @foreach (var childNode in node.Children)
                             {
-                                <li><a class="dropdown-item" href="#">@childNode.tree.name</a></li>
+                                <li><a class="dropdown-item" href="@childNode.tree.filename">@childNode.tree.name</a></li>
                             }
                         </ul>
                     </li>

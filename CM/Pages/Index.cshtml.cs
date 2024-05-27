@@ -181,6 +181,11 @@ namespace CM.Pages
                                 add.filename = reader.GetString(7);
                             }
 
+                            if (add.filename.Equals("")) // setting default cshtml if user dont enter filename.
+                            {
+                                add.filename = "default.cshtml";
+                            }
+
                             /*if (add.id == 999)
                             {
                                 mainHtml = add.htmlcontent;
