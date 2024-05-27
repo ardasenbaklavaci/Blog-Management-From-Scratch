@@ -106,7 +106,7 @@ namespace CM.Pages
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-            string sql = "UPDATE tree SET name = @name, HTMLContent = @HTMLContent, parent = @parent, title = @title, @filename = filename, HasContent = @HasContent WHERE ID = @ID";
+            string sql = "UPDATE tree SET name = @name, HTMLContent = @HTMLContent, parent = @parent, title = @title, filename = @filename, HasContent = @HasContent WHERE ID = @ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -129,7 +129,7 @@ namespace CM.Pages
                         connection.Open();
                         command.ExecuteNonQuery();
                     }
-                    catch (Exception ex)
+                    catch (SqlException ex)
                     {
                         // Handle any exceptions
                         Console.WriteLine(ex.Message);

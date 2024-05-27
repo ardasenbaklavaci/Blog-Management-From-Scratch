@@ -5,18 +5,20 @@ using System.Data.SqlClient;
 
 namespace Sites.Pages
 {
-    public class IndexModel : PageModel
+    public class defaultModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IConfiguration _configuration;
 
+        public String id = "";
+
         public List<Tree> trees = new List<Tree>();
         public List<TreeNode> firstnodes = new List<TreeNode>();
 
-        public String mainHtml = ""; // html to render for main page...
+        public String html_ = ""; // html to render for main page...
 
         public TreeNode root;
-        public IndexModel(ILogger<IndexModel> logger, IConfiguration configuration)
+        public defaultModel(ILogger<IndexModel> logger, IConfiguration configuration)
         {
             _logger = logger;
             _configuration = configuration;
@@ -130,13 +132,13 @@ namespace Sites.Pages
                             if (!reader.IsDBNull(3))
                             {
                                 add.htmlcontent = reader.GetString(3);
-                            }                                                    
+                            }
                             add.childcount = reader.GetInt32(4);
                             if (!reader.IsDBNull(6))
                             {
                                 add.title = reader.GetString(6);
                             }
-                            if(!reader.IsDBNull(7)) 
+                            if (!reader.IsDBNull(7))
                             {
                                 add.filename = reader.GetString(7);
                             }
@@ -148,9 +150,9 @@ namespace Sites.Pages
 
                             trees.Add(add);
 
-                            if(add.id == 999) // root (mainpage)
+                            if (add.id == 999) // root (mainpage)
                             {
-                                mainHtml = add.htmlcontent;
+                                html_ = add.htmlcontent;
                             }
                         }
 
@@ -159,7 +161,7 @@ namespace Sites.Pages
             }
 
             TreePrinter tp = new TreePrinter();
-            
+
             List<TreeNode> nodeList = new List<TreeNode>();
             foreach (Tree tree in trees)
             {
@@ -178,7 +180,8 @@ namespace Sites.Pages
 
             //firstnodes = FindTopNodes(root); // Finding from root node 
             firstnodes = FindFirstSubNodes(999); //Finding from root_id
-        }
 
+            id = Request.Query["id"];
+        }
     }
 }
