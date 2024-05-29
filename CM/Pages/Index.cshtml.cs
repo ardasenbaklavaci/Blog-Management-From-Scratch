@@ -183,7 +183,7 @@ namespace CM.Pages
 
                             if (add.filename.Equals("")) // setting default cshtml if user dont enter filename.
                             {
-                                add.filename = "default.cshtml";
+                                add.filename = "default";
                             }
 
                             /*if (add.id == 999)

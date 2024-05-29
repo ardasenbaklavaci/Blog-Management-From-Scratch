@@ -67,19 +67,19 @@
                 if (node.tree.childcount == 0)
                 {                 
                     <li class="nav-item">
-                        <a class="nav-link" href="@node.tree.filename">@node.tree.name</a>
+                        <a class="nav-link" href="@node.tree.filename/?id=@node.tree.id">@node.tree.name</a>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="@node.tree.filename" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="@node.tree.filename/?id=@node.tree.id" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @node.tree.name
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                           
                             @foreach (var childNode in node.Children)
                             {
-                                <li><a class="dropdown-item" href="@childNode.tree.filename">@childNode.tree.name</a></li>
+                                <li><a class="dropdown-item" href="@childNode.tree.filename/?id=@childNode.tree.id">@childNode.tree.name</a></li>
                             }
                         </ul>
                     </li>

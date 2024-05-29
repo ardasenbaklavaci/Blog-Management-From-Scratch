@@ -143,7 +143,7 @@ namespace Sites.Pages
 
                             if (add.filename.Equals("")) // setting default cshtml if user dont enter filename.
                             {
-                                add.filename = "default.cshtml";
+                                add.filename = "default";
                             }
 
                             trees.Add(add);

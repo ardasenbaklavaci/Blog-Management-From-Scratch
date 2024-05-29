@@ -112,6 +112,8 @@ namespace Sites.Pages
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
+            id = Request.Query["id"];
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -145,12 +147,12 @@ namespace Sites.Pages
 
                             if (add.filename.Equals("")) // setting default cshtml if user dont enter filename.
                             {
-                                add.filename = "default.cshtml";
+                                add.filename = "default";
                             }
 
                             trees.Add(add);
 
-                            if (add.id == 999) // root (mainpage)
+                            if (add.id == int.Parse(id)) // root (mainpage)
                             {
                                 html_ = add.htmlcontent;
                             }
@@ -181,7 +183,6 @@ namespace Sites.Pages
             //firstnodes = FindTopNodes(root); // Finding from root node 
             firstnodes = FindFirstSubNodes(999); //Finding from root_id
 
-            id = Request.Query["id"];
         }
     }
 }
